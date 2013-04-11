@@ -10,7 +10,7 @@
 
 <script type="text/x-handlebars">
   <div class="container">
-	<h1> Primera Aplicacion con Ember.js </h1>
+	{{t main.application.title tagName="h1"}} 
 		{{outlet}}
 	</div>
 </script>
@@ -19,63 +19,78 @@
 	{{#unless App.mainUser.isEmpty}}
 		{{#if App.mainUser.isInvalid }}
 			<div class="error">
-				<p>Los nombres no coinciden</p>
+				{{t index.login.fail tagName="p"}}
 			</div>
 		{{/if}}
 	{{/unless}}
 		<div class="inputGroup">
-			<label> Introduce tu nombre: </label> {{view Ember.TextField valueBinding="App.mainUser.name"}}
+			{{t index.login.nameLabel tagName="label"}} {{view Ember.TextField valueBinding="App.mainUser.name"}}
 		</div>
 		<div class="inputGroup">
-			<label> Repite tu nombre: </label> {{view Ember.TextField valueBinding="App.mainUser.nameRepeated"}}
+			{{t index.login.nameRepeatLabel tagName="label"}} {{view Ember.TextField valueBinding="App.mainUser.nameRepeated"}}
 		</div>
-		{{#linkTo "menu"}}<input type="button" {{bindAttr disabled="App.mainUser.isInvalid"}}value=" Sign in" class="signInButton" /> {{/linkTo}}
+		{{#linkTo "menu"}}<button {{bindAttr disabled="App.mainUser.isInvalid"}}  class="signInButton"> 
+    {{t index.login.loginButton}} </button> {{/linkTo}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="menu">
 	{{#if App.mainUser.name}}
 		{{outlet}}
 	{{else}}
-		<p>No ha introducido ningun nombre</p>
-		{{#linkTo "index"}} Volver {{/linkTo}}
+		{{t menu.login.noLog tagName="p"}}
+		{{#linkTo "index"}} {{t menu.login.backToIndex}} {{/linkTo}}
 	{{/if}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="menu/index">
 	<div class="welcomeBox">
-		<h3>Bienvenido {{App.mainUser.name}}</h3>
+		<h3>{{t menu.loged.welcomeMsg}} {{App.mainUser.name}}</h3>
 	</div>
 	<div class="listBox">
-		{{#linkTo "menu.selectColor"}}<input type="button" value="Ver Lista Colores">{{/linkTo}}
-		{{#linkTo "menu.watchColor"}}<input type="button" value="Ver Color Seleccionado">{{/linkTo}}
+		{{#linkTo "menu.selectColor"}} {{t menu.button.colorListButton tagName="button"}}{{/linkTo}}
+		{{#linkTo "menu.watchColor"}} {{t menu.button.selectedColorButton tagName="button"}}{{/linkTo}}
 	</div>  	
 </script>
 
 <script type="text/x-handlebars" data-template-name="menu/selectColor">
-	<h2> Seleccione un color </h2>
+	{{t menu.selectColor.selectColorText tagName="h2"}}
 	{{#each App.colors}}		
 		<div {{bindAttr class=":colorBox name"}} {{action 'changeSelectedColor' this}}></div>
 	{{/each}}
 
-	<h2> Color Seleccionado: </h2>
+	{{t menu.selectColor.selectedColorText tagName="h2"}}
 	<div class="seletedColorBox">
-		<div {{bindAttr class=":selectedColor App.selectedColorName"}}></div>
+		<div {{bindAttr class=":selectedColor App.selectedColorName"}}</div>
 	</div>
 
-	{{#linkTo 'menu'}}<button class="backMenu">Seleccionar color</button>{{/linkTo}}
+	{{#linkTo 'menu'}}<button class="backMenu"> {{t menu.selectColor.selectColorButton}}</button>{{/linkTo}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="menu/watchColor">
-	<h2> Color Seleccionado: </h2>
+	{{t menu.watchColor.selectedColorText tagName="h2"}}
 	<div class="seletedColorBox">
 		<div {{bindAttr class=":selectedColor App.selectedColorName"}}></div>
 	</div>
-	{{#linkTo 'menu'}}<button class="backMenu">Volver al Menu</button>{{/linkTo}}
+	{{#linkTo 'menu'}}<button class="backMenu">{{t menu.watchColor.selectColorButton}}</button>{{/linkTo}}
 </script>
 
   <script src="js/libs/jquery-1.9.1.js"></script>
   <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
   <script src="js/libs/ember-1.0.0-rc.2.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/ember-i18n/lib/i18n.js"></script>
+  <script src="js/loc.js"></script>
+  <script type="text/javascript">
+    
+    if(navigator.language != "en"){
+      var listaLenguajes = ['es','ger'];
+      if(listaLenguajes.contains(navigator.language)){
+        Em.I18n.translations = es;
+      }
+      else{
+      	Em.I18n.translations = en;
+      }
+    }
+  </script>
 </body>
 </html>

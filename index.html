@@ -74,23 +74,25 @@
 	{{#linkTo 'menu'}}<button class="backMenu">{{t menu.watchColor.selectColorButton}}</button>{{/linkTo}}
 </script>
 
-  <script src="js/libs/jquery-1.9.1.js"></script>
-  <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-  <script src="js/libs/ember-1.0.0-rc.2.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/ember-i18n/lib/i18n.js"></script>
-  <script src="js/loc.js"></script>
-  <script type="text/javascript">
-    
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
+<script src="js/libs/ember-1.0.0-rc.2.js"></script>
+<script src="js/app.js"></script>
+<script src="js/ember-i18n/lib/i18n.js"></script>
+<script src="js/loc.js"></script>
+<script type="text/javascript">
     if(navigator.language != "en"){
-      var listaLenguajes = ['es','ger'];
-      if(listaLenguajes.contains(navigator.language)){
-        Em.I18n.translations = es;
-      }
-      else{
-      	Em.I18n.translations = en;
-      }
+      var langList = ['es'];
+      var navLanguage = navigator.language;
+     	if(langList.contains(navLanguage)){
+       		switch(navLanguage){
+        		case 'es':Em.I18n.translations = es; break;
+        		default: Em.I18n.translations = en;
+        	}
+     	}else{
+      		Em.I18n.translations = en;
+     	}
     }
-  </script>
+</script>
 </body>
 </html>
